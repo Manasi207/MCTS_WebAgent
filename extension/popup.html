@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Generic Web AI Agent</title>
+    <style>
+        body {
+            width: 450px;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+        }
+        h1 {
+            margin: 0 0 5px 0;
+            font-size: 24px;
+        }
+        .subtitle {
+            color: #666;
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+        .status {
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+        .status.connected {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        .status.disconnected {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        .input-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            font-size: 13px;
+        }
+        input, textarea, select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-family: Arial, sans-serif;
+            box-sizing: border-box;
+            font-size: 13px;
+        }
+        textarea {
+            min-height: 80px;
+            resize: vertical;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        button:disabled {
+            background-color: #6c757d;
+            cursor: not-allowed;
+        }
+        #result {
+            margin-top: 15px;
+            padding: 10px;
+            background-color: #f8f9fa;
+            border-radius: 4px;
+            border: 1px solid #dee2e6;
+            max-height: 300px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+        }
+        .hidden {
+            display: none;
+        }
+        code {
+            background-color: #e9ecef;
+            padding: 2px 4px;
+            border-radius: 3px;
+            font-family: monospace;
+        }
+        .email-fields {
+            display: none;
+            border: 1px solid #dee2e6;
+            padding: 15px;
+            border-radius: 5px;
+            background-color: #f8f9fa;
+            margin-bottom: 15px;
+        }
+        .email-fields.active {
+            display: block;
+        }
+        .action-selector {
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Generic Web AI Agent</h1>
+    <div class="subtitle">MCTS-Based AI Agent</div>
+    
+    <div id="status" class="status disconnected">
+        Checking connection...
+    </div>
+
+    <div class="action-selector">
+        <label for="action-type">Select Action</label>
+        <select id="action-type">
+            <option value="chat">General Query / Chat</option>
+            <option value="send-email">Send Email</option>
+            <option value="fetch-email">Fetch Latest 5 Emails</option>
+        </select>
+    </div>
+
+    <!-- Chat/General Query -->
+    <div id="chat-section" class="action-section">
+        <div class="input-group">
+            <label for="task">Your Query</label>
+            <textarea id="task" placeholder="Ask anything..."></textarea>
+        </div>
+    </div>
+
+    <!-- Send Email Section -->
+    <div id="send-email-section" class="email-fields">
+        <div class="input-group">
+            <label for="recipient">Recipient Email</label>
+            <input type="email" id="recipient" placeholder="recipient@example.com" />
+        </div>
+        <div class="input-group">
+            <label for="subject">Subject</label>
+            <input type="text" id="subject" placeholder="Email subject" />
+        </div>
+        <div class="input-group">
+            <label for="body">Message</label>
+            <textarea id="body" placeholder="Your email message..."></textarea>
+        </div>
+    </div>
+
+    <!-- Fetch Email Section (no inputs needed) -->
+    <div id="fetch-email-section" class="email-fields">
+        <p style="color: #666; font-size: 13px;">
+            📧 This will fetch your latest 5 emails from inbox.
+        </p>
+    </div>
+
+    <button id="execute-btn">Execute Task</button>
+
+    <div id="result" class="hidden"></div>
+
+    <script src="popup.js"></script>
+</body>
+</html>

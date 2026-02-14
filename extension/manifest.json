@@ -1,0 +1,16 @@
+
+
+  {
+    "manifest_version": 3,
+    "name": "Web AI Agent",
+    "version": "1.0",
+    "description": "Chrome extension to interact with the Web AI Agent API.",
+    "permissions": [],
+    "host_permissions": [
+      "http://127.0.0.1:8000/*"
+    
+    ],
+    "action": {
+      "default_popup": "popup.html"
+    }
+  }
