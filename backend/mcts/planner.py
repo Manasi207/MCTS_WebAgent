@@ -19,10 +19,11 @@ def rate_limited_delay():
 
 class PlanningState:
 
-    def __init__(self, query, steps=None, depth=0):
+    def __init__(self, query, steps=None, depth=0, max_depth=3):
         self.query = query
         self.steps = steps or []
         self.depth = depth
+        self.max_depth = max_depth
 
     def get_possible_actions(self):
         """Dynamic action selection based on query type and current context"""
@@ -61,12 +62,13 @@ class PlanningState:
         return PlanningState(
             self.query,
             self.steps + [action],
-            self.depth + 1
+            self.depth + 1,
+            self.max_depth
         )
 
     def is_terminal(self):
         """Check if planning should stop"""
-        return self.depth >= MAX_MCTS_DEPTH
+        return self.depth >= self.max_depth
 
     def evaluate_with_llm(self):
         """Evaluate plan quality using enhanced heuristics"""

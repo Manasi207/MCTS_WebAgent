@@ -1,23 +1,57 @@
-#backend/config.py
 
+###############################################################
+
+# backend/config.py
+
+# ──────────────────────────────────────────────
 # LLM Configuration
-OLLAMA_MODEL = "phi3"
+# ──────────────────────────────────────────────
+OLLAMA_MODEL    = "llama3.2"
 OLLAMA_BASE_URL = "http://localhost:11434"
 
-# MCTS Configuration
-MAX_MCTS_DEPTH = 3
-MCTS_SIMULATIONS = 8  # Increased for better e-commerce planning
+# ──────────────────────────────────────────────
+# MCTS Core Configuration
+# ──────────────────────────────────────────────
+MCTS_SIMULATIONS        = 5   # Simulations for web-scraping MCTS (ecommerce)
+MCTS_WEB_SCRAPING_RETRIES = 2  # Retry attempts for general web scraping
+MAX_MCTS_DEPTH          = 3   # Max depth for MCTS planning tree
 
-# Rate Limiting Configuration
-LLM_RATE_LIMIT_DELAY = 0.3  # 300ms between LLM calls
-WEB_REQUEST_DELAY = 1.0      # 1 second between web requests (avoid rate limiting)
-REQUEST_TIMEOUT = 12         # 12 seconds timeout for web requests
+# ──────────────────────────────────────────────
+# MCTS Variant Configuration
+# ──────────────────────────────────────────────
 
-# Search Configuration
-MAX_SEARCH_RESULTS = 8       # Limit search results for faster processing
-MAX_SCRAPE_CONTENT = 3000    # Max characters for scraped content
+# R-MCTS (Retrieval MCTS)
+# Fetches Wikipedia snippets per node via API — timeout keeps it fast
+R_MCTS_RETRIEVAL_TIMEOUT  = 4    # seconds per Wikipedia API call
+R_MCTS_RETRIEVAL_TOP_K    = 2    # snippets to fetch per (query, action) pair
+R_MCTS_MAX_DEPTH          = 3    # tree depth for R-MCTS
 
-# E-commerce Configuration
-MAX_PLATFORMS_TO_CHECK = 4   # Check top 4 platforms for real prices
-PRICE_RANGE_MIN = 50         # Minimum valid price in INR
-PRICE_RANGE_MAX = 500000     # Maximum valid price in INR
+# WM-MCTS (World-Model-Guided MCTS)
+# Uses local LLM to score each candidate action before expanding
+WM_MCTS_MAX_DEPTH         = 3    # tree depth for WM-MCTS
+
+# MCTS-RAG (Retrieval-Augmented MCTS)
+# Seeds retriever once from Wikipedia before search starts
+RAG_MCTS_MAX_DEPTH        = 3    # tree depth for MCTS-RAG
+RAG_MCTS_SEED_LIMIT       = 2    # Wikipedia results to seed retriever with
+
+# ──────────────────────────────────────────────
+# Rate Limiting
+# ──────────────────────────────────────────────
+LLM_RATE_LIMIT_DELAY = 0.1   # 100ms between LLM calls
+WEB_REQUEST_DELAY    = 0.5   # 500ms between web requests
+REQUEST_TIMEOUT      = 10    # 10 seconds timeout for web requests
+
+# ──────────────────────────────────────────────
+# Search / Scraping
+# ──────────────────────────────────────────────
+MAX_SEARCH_RESULTS  = 8      # Limit search results for faster processing
+MAX_SCRAPE_CONTENT  = 3000   # Max characters for scraped content
+
+# ──────────────────────────────────────────────
+# E-commerce
+# ──────────────────────────────────────────────
+MANDATORY_PLATFORMS = ['Amazon India', 'Flipkart', 'Myntra']
+PRICE_RANGE_MIN     = 50      # Minimum valid price in INR
+PRICE_RANGE_MAX     = 500000  # Maximum valid price in INR
+
